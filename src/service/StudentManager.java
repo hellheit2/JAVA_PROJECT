@@ -1,10 +1,13 @@
-package test;
+package service;
+
+import dto.Student;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentManager {
 
-    public ArrayList<Student> stuList = new ArrayList<>();
+    public List<Student> stuList = new ArrayList<>();
 
     public StudentManager(){
         Student test = new Student();

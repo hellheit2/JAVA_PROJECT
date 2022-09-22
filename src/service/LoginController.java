@@ -1,8 +1,6 @@
-package test;
+package service;
 
-import test.StudentManager;
-
-public class Login extends StudentManager {
+public class LoginController extends StudentManager {
 
     private static final String ADMIN_ID = "admin"; //관리자 아이디
     private static final String ADMIN_PW = "1234"; //관리자 비번

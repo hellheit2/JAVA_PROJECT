@@ -1,35 +1,15 @@
 package view;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-
-import test.Ltime;
-import test.StudentManager;
-import test.Lecture;
 
 public class StartView {
     static Scanner sc = new Scanner(System.in);
     static boolean isRun = true;
     public static void main(String[] args) {
 
-        Lecture lec = new Lecture(
-               "아이디",
-               "전공",
-               "이름",
-                new ArrayList<>(
-                        Arrays.asList(
-                                new Ltime(1,1,1),
-                                new Ltime(2,2,2)
-                        )
-                ),
-                3
-        );
+        showStartMenu();
 
-//        String id, String type, String name, List< LecTime > time, int credit
-        System.out.println(new StudentManager().stuList.get(0).getStuId());
-//        showStartMenu();
+
     }
 
 

@@ -1,4 +1,6 @@
-package test;
+package dto;
+
+import java.util.List;
 
 public class Student {
 
@@ -7,7 +9,7 @@ public class Student {
     private int stuId;
     private String stuName;
     private String stuMajor;
-    private Schedule schedule;
+    private List<Lecture> myLecture;;
 
     public Student(){
 
@@ -19,14 +21,6 @@ public class Student {
 
     public int getPwd() {
         return pwd;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setPwd(int pwd) {
-        this.pwd = pwd;
     }
 
     public int getStuId() {
@@ -53,7 +47,7 @@ public class Student {
         this.stuMajor = stuMajor;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setSchedule(List<Lecture> myLecture) {
+        this.myLecture = myLecture;
     }
 }
