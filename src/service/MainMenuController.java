@@ -1,32 +1,25 @@
-package view;
+package service;
+
+import view.MainView;
 
 import java.util.Scanner;
 
-public class StartView {
+public class MainMenuController {
     static Scanner sc = new Scanner(System.in);
     static boolean isRun = true;
-    public static void main(String[] args) {
+    static LoginController loginController;
+    int result;
 
-        showStartMenu();
-
-
+    public MainMenuController(){
+        showMainMenu();
     }
 
-
-
-
-
-
-
-    public static void showStartMenu() {
+    public void showMainMenu() {
         while (isRun) {
-            System.out.println("────────────수강신청 프로그램───────────");
-            System.out.println("       0.종료  1.로그인  2.회원가입      ");
-            System.out.println("─────────────────────────────────────");
-            System.out.print(">> ");
-            int i = sc.nextInt();
 
-            switch (i) {
+            result = MainView.mainMenu();
+
+            switch (result) {
                 case 0:
                     // 종료
                     System.out.println("프로그램을 종료 합니다.");
@@ -34,6 +27,8 @@ public class StartView {
                     break;
                 case 1:
                     // 로그인
+                    loginController = new LoginController();
+                    loginController.showLoginMenu();
                     System.out.println("로그인");
                     break;
                 case 2:

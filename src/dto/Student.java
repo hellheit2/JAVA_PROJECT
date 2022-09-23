@@ -5,22 +5,39 @@ import java.util.List;
 public class Student {
 
     private String id;
-    private int pwd;
+    private String pwd;
     private int stuId;
     private String stuName;
     private String stuMajor;
-    private List<Lecture> myLecture;;
+    private List<Lecture> myLecture;
 
     public Student(){
 
+    }
+
+    public Student(String id, String pwd, int stuId, String stuName, String stuMajor, List<Lecture> myLecture) {
+        this.id = id;
+        this.pwd = pwd;
+        this.stuId = stuId;
+        this.stuName = stuName;
+        this.stuMajor = stuMajor;
+        this.myLecture = myLecture;
     }
 
     public String getId() {
         return id;
     }
 
-    public int getPwd() {
+    public String getPwd() {
         return pwd;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
     public int getStuId() {
@@ -47,7 +64,23 @@ public class Student {
         this.stuMajor = stuMajor;
     }
 
-    public void setSchedule(List<Lecture> myLecture) {
+    public List<Lecture> getMyLecture() {
+        return myLecture;
+    }
+
+    public void setMyLecture(List<Lecture> myLecture) {
         this.myLecture = myLecture;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", pwd=" + pwd +
+                ", stuId=" + stuId +
+                ", stuName='" + stuName + '\'' +
+                ", stuMajor='" + stuMajor + '\'' +
+                ", myLecture=" + myLecture +
+                '}';
     }
 }

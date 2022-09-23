@@ -1,16 +1,67 @@
 package service;
 
-public class LoginController extends StudentManager {
+import dto.Student;
+import view.LoginView;
 
-    private static final String ADMIN_ID = "admin"; //관리자 아이디
-    private static final String ADMIN_PW = "1234"; //관리자 비번
+import java.util.Map;
+import java.util.Scanner;
 
+public class LoginController {
 
-    // 관리자인지 체크
-    public boolean userCheck(String id, String pw) {
-        if(id.equals(ADMIN_ID) && pw.equals(ADMIN_PW))
-            return true;
+    static Scanner sc = new Scanner(System.in);
+    static StudentMenuController studentMenuController;
+    static StudentService studentController;
+    public LoginService loginService = new LoginService();
 
-        return false;
+    static boolean isRun = true;
+    Map<String,String> id_pwd;
+    Student student;
+    int userType;
+
+    public LoginController(){
+
     }
+
+    public void showLoginMenu(){
+
+        while(isRun) {
+            id_pwd = LoginView.login();
+
+            if (loginService.isAdmin(id_pwd)){
+                userType = 0;
+                isRun = false;
+            } else if (loginService.isCorrectUser(id_pwd)) {
+                studentController = new StudentService();
+                userType = 1;
+                isRun = false;
+                student = studentController.getStudentByLoginInfo(id_pwd);
+            } else {
+                System.out.println("!!아이디나 비밀번호를 다시 확인해주세요.!!");
+                System.out.println("─────────────────────────────────────");
+                return;
+            }
+        }
+
+        switch (userType) {
+            case 0:
+                // 관리자 모드
+                System.out.println("      ** 관리자로 로그인했습니다 **      ");
+                System.out.println("─────────────────────────────────────");
+                break;
+            case 1:
+                // 학생 모드
+                System.out.println("          ** 로그인했습니다 **          ");
+                System.out.println("─────────────────────────────────────");
+                studentMenuController = new StudentMenuController();
+                studentMenuController.showStudentMenu(student);
+                break;
+        }
+
+    }
+
+
+
+
+
+
 }
