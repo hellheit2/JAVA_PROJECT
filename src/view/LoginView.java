@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class LoginView {
     static Scanner sc = new Scanner(System.in);
     public static Map<String,String> login(){
-        System.out.println("────────────로그인───────────");
+        System.out.println("─────────────── 로그인 ───────────────");
         System.out.print("아이디: ");
         String id = sc.next();
         System.out.print("비밀번호: ");
