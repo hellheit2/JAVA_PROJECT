@@ -18,7 +18,8 @@ public class StudentMenuController {
                     isRun = false;
                     break;
                 case 1:
-                    System.out.println("수강 내역");
+                    System.out.println("강의 목록");
+                    LectureManager.INSTANCE.printLecture();
                     break;
                 case 2:
                     System.out.println("수강 신청");

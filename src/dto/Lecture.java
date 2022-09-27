@@ -43,4 +43,19 @@ public class Lecture {
     public int getCredit() {
         return lecCredit;
     }
+
+    @Override
+    public String toString() {
+        String time = "";
+        for(Time tempTime : lecTime){
+            time += (tempTime.toString() + " ");
+        }
+        return "Lecture{" +
+                "lecId='" + lecId + '\'' +
+                ", lecType='" + lecType + '\'' +
+                ", lecName='" + lecName + '\'' +
+                ", lecTime=" + time +
+                ", lecCredit=" + lecCredit +
+                '}';
+    }
 }

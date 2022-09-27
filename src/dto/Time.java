@@ -2,8 +2,8 @@ package dto;
 
 public class Time {
     public String day;
-    int startTime;
-    int endTime;
+    public int startTime;
+    public int endTime;
 
     public Time() {
     }
@@ -17,5 +17,14 @@ public class Time {
     //확인하고자 하는 시간이 해당 수업 시간과 겹치는지 확인
     public boolean timeDuplicateCheck(Time time){
         return (startTime <= time.startTime) && (endTime >= time.startTime);
+    }
+
+    @Override
+    public String toString() {
+        return "Time{" +
+                "day='" + day + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }
