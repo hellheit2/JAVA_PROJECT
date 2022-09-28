@@ -1,5 +1,6 @@
 package dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Student {
@@ -9,7 +10,7 @@ public class Student {
     private int stuId;
     private String stuName;
     private String stuMajor;
-    private List<Lecture> myLecture;
+    private List<Lecture> myLecture = new ArrayList<>();
 
     public Student(){
 

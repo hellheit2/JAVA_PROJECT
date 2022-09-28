@@ -3,14 +3,14 @@ package service;
 import dto.Student;
 import view.LoginView;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 
 public class LoginController {
 
     static Scanner sc = new Scanner(System.in);
-    static StudentMenuController studentMenuController;
-    static StudentService studentController;
+    static StudentController studentController;
     public LoginService loginService = new LoginService();
 
     static boolean isRun = true;
@@ -22,7 +22,7 @@ public class LoginController {
 
     }
 
-    public void showLoginMenu(){
+    public void showLoginMenu() throws IOException {
 
         while(isRun) {
             id_pwd = LoginView.login();
@@ -31,10 +31,9 @@ public class LoginController {
                 userType = 0;
                 isRun = false;
             } else if (loginService.isCorrectUser(id_pwd)) {
-                studentController = new StudentService();
                 userType = 1;
                 isRun = false;
-                student = studentController.getStudentByLoginInfo(id_pwd);
+                student = StudentService.INSTANCE.getStudentByLoginInfo(id_pwd);
             } else {
                 System.out.println("!!아이디나 비밀번호를 다시 확인해주세요.!!");
                 System.out.println("─────────────────────────────────────");
@@ -52,8 +51,8 @@ public class LoginController {
                 // 학생 모드
                 System.out.println("          ** 로그인했습니다 **          ");
                 System.out.println("─────────────────────────────────────");
-                studentMenuController = new StudentMenuController();
-                studentMenuController.showStudentMenu(student);
+                studentController = new StudentController();
+                studentController.showStudentMenu(student);
                 break;
         }
 

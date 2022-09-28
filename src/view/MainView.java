@@ -1,5 +1,9 @@
 package view;
 
+import dto.Lecture;
+import service.IOUtil;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class MainView {
@@ -11,4 +15,5 @@ public class MainView {
         System.out.print(">> ");
         return sc.nextInt();
     }
+
 }

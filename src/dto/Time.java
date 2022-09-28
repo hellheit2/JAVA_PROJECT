@@ -21,10 +21,8 @@ public class Time {
 
     @Override
     public String toString() {
-        return "Time{" +
-                "day='" + day + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                '}';
+        String result = "";
+        result = day + "(" + startTime + ":00 ~ " + endTime + ":00)";
+        return result;
     }
 }

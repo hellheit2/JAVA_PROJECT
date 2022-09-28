@@ -2,6 +2,7 @@ package service;
 
 import view.MainView;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MainMenuController {
@@ -10,11 +11,11 @@ public class MainMenuController {
     static LoginController loginController;
     int result;
 
-    public MainMenuController(){
+    public MainMenuController() throws IOException {
         showMainMenu();
     }
 
-    public void showMainMenu() {
+    public void showMainMenu() throws IOException {
         while (isRun) {
 
             result = MainView.mainMenu();

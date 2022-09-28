@@ -4,7 +4,7 @@ import dto.Student;
 
 import java.util.Map;
 
-public class LoginService extends StudentService {
+public class LoginService {
     private static final String ADMIN_ID = "admin"; //관리자 아이디
     private static final String ADMIN_PWD = "admin"; //관리자 비번
 
@@ -15,7 +15,7 @@ public class LoginService extends StudentService {
         String id = id_pw.get("id");
         String pwd = id_pw.get("pwd");
 
-        for(Student temp : StudentManager.INSTANCE.stuList){
+        for(Student temp : StudentService.INSTANCE.stuList){
 
             String chkID = temp.getId();
             String chkPwd = temp.getPwd();

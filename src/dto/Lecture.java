@@ -1,5 +1,7 @@
 package dto;
 
+import service.IOUtil;
+
 import java.util.List;
 
 // Lecture Class
@@ -48,14 +50,16 @@ public class Lecture {
     public String toString() {
         String time = "";
         for(Time tempTime : lecTime){
-            time += (tempTime.toString() + " ");
+            time += tempTime.toString() + " ";
         }
-        return "Lecture{" +
-                "lecId='" + lecId + '\'' +
-                ", lecType='" + lecType + '\'' +
-                ", lecName='" + lecName + '\'' +
-                ", lecTime=" + time +
-                ", lecCredit=" + lecCredit +
-                '}';
+
+        String result = "";
+        result += IOUtil.INSTANCE.textAlign(lecId, 8);
+        result += IOUtil.INSTANCE.textAlign(lecType, 6);
+        result += IOUtil.INSTANCE.textAlign(lecName, 25);
+        result += IOUtil.INSTANCE.textAlign(time, 30);
+        result += IOUtil.INSTANCE.textAlign(String.format("%d",lecCredit), 10);
+
+        return result;
     }
 }

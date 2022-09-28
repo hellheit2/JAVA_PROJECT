@@ -5,6 +5,8 @@ import dto.Student;
 import dto.Time;
 import exception.LectureDuplicationException;
 
+import view.MainView;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class LectureManager {
+import static java.lang.Integer.parseInt;
+
+
+public class LectureManager{
 
     final static LectureManager INSTANCE = new LectureManager();
     public List<Lecture> lectureList = new ArrayList<>();
@@ -33,6 +38,44 @@ public class LectureManager {
 //        lectureList.add(new Lecture("0010", "전공선택", "정보처리학개론", new ArrayList<>(Arrays.asList(new Time("월",1,3),new Time("수",1,3))), 3));
     }
 
+
+    public void printLecture(){
+        IOUtil.INSTANCE.printLectureList(lectureList);
+    }
+
+    //-----get--------------------------------------------------------------------
+
+    public List<Lecture> getLectureList() {
+        return lectureList;
+    }
+
+    //관리자 기능
+    //----add---------------------------------------------------------------------
+
+    public void addLecture(Lecture lecture) throws LectureDuplicationException {
+
+        if(getLectureByName(lecture.getId()) == null){
+            throw new LectureDuplicationException("이미 존재하는 수업 입니다.");
+        }
+
+        lectureList.add(lecture);
+    }
+
+    //----update------------------------------------------------------------------
+
+
+    //----delete------------------------------------------------------------------
+    public boolean delLecture(String lectureId){
+        Lecture index = getLectureIndexById(lectureId);
+        if(index != null) {
+            lectureList.remove(index);
+            return true;
+        }
+        return false;
+    }
+
+
+    //----db connect------------------------------------------------------------------
     public void connectDatabase(){
         String driver = "oracle.jdbc.driver.OracleDriver";
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -62,11 +105,11 @@ public class LectureManager {
                 List<Time> lecTime = new ArrayList<>();
                 Timestamp ts = rs.getTimestamp(4);
                 int lecDuration = rs.getInt(5);
-                Time time = timeStampToTime(ts,lecDuration);
+                Time time = IOUtil.INSTANCE.timeStampToTime(ts,lecDuration);
 
                 int lecCredit = rs.getInt(6);
 
-                Lecture isLec = isLectureExist(lecId);
+                Lecture isLec = getLectureByName(lecId);
                 if(isLec != null) {
                     isLec.getTime().add(time);
                 }else{
@@ -93,7 +136,37 @@ public class LectureManager {
             }
         }
     }
-    public Lecture isLectureExist(String lecId){
+
+
+    public boolean isRangeOfIndex(int index){
+        if(index > lectureList.size())
+            return false;
+        return true;
+    }
+    public boolean isRangeOfIndex(int index, List<Lecture> lecture){
+        if(index > lecture.size())
+            return false;
+        return true;
+    }
+    public boolean isLectureExist(Lecture lecture){
+        for(Lecture lecTemp : lectureList){
+            if(lecTemp.getId().equals(lecture.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+    public Lecture getLectureByIndex(int index){
+        if(isRangeOfIndex(index))
+            return lectureList.get(index-1);
+        return null;
+    }
+    public Lecture getLectureByIndex(int index, List<Lecture> lecture){
+        if(isRangeOfIndex(index))
+            return lecture.get(index-1);
+        return null;
+    }
+    public Lecture getLectureByName(String lecId){
         for(Lecture lecTemp : lectureList){
             if(lecTemp.getId().equals(lecId)){
                 return lecTemp;
@@ -101,66 +174,15 @@ public class LectureManager {
         }
         return null;
     }
-    public void printLecture(){
-        // 학생추가
-        for(Lecture lecTemp: lectureList){
-            System.out.println(lecTemp.toString());
-        }
-    }
-    public Time timeStampToTime(Timestamp ts, int duration){
-        Time time = new Time();
-        SimpleDateFormat conTimeFormat = new SimpleDateFormat("E H");
-        StringTokenizer st = new StringTokenizer(conTimeFormat.format(ts), " ");
-
-        time.day = st.nextToken();
-        time.startTime = Integer.parseInt(st.nextToken());
-        time.endTime = time.startTime + duration;
-
-        return time;
-    }
-    //-----get--------------------------------------------------------------------
-
-    public List<Lecture> getLectureList() {
-        return lectureList;
-    }
-
-    //관리자 기능
-    //----add---------------------------------------------------------------------
-
-    public void addLecture(Lecture lecture) throws LectureDuplicationException {
-        for (Lecture l : lectureList) {
-            if (l.getId().equals(lecture.getId())) {
-                throw new LectureDuplicationException("이미 존재하는 수업 입니다.");
-            }
-        }
-
-        lectureList.add(lecture);
-    }
-
-    //----update------------------------------------------------------------------
-
-
-    //----delete------------------------------------------------------------------
-    public boolean delLecture(String lectureId){
-        Lecture index = getLectureIndexById(lectureId);
-        if(index != null) {
-            lectureList.remove(index);
-            return true;
-        }
-        return false;
-    }
 
     public Lecture getLectureIndexById(String lectureId){
-        for(Lecture l : lectureList){
-            if(l.getId().equals(lectureId)){
-                return l;
+        for(Lecture tempLec : lectureList){
+            if(tempLec.getId().equals(lectureId)){
+                return tempLec;
             }
         }
         return null;
     }
 
-    public void showLecture(){
-
-    }
 
 }
