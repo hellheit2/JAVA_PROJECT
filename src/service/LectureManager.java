@@ -54,7 +54,7 @@ public class LectureManager{
 
     public void addLecture(Lecture lecture) throws LectureDuplicationException {
 
-        if(getLectureByName(lecture.getId()) == null){
+        if(getLectureIndexById(lecture.getId()) == null){
             throw new LectureDuplicationException("이미 존재하는 수업 입니다.");
         }
 
@@ -65,8 +65,8 @@ public class LectureManager{
 
 
     //----delete------------------------------------------------------------------
-    public boolean delLecture(String lectureId){
-        Lecture index = getLectureIndexById(lectureId);
+    public boolean delLecture(String lecId){
+        Lecture index = getLectureIndexById(lecId);
         if(index != null) {
             lectureList.remove(index);
             return true;
@@ -109,7 +109,7 @@ public class LectureManager{
 
                 int lecCredit = rs.getInt(6);
 
-                Lecture isLec = getLectureByName(lecId);
+                Lecture isLec = getLectureIndexById(lecId);
                 if(isLec != null) {
                     isLec.getTime().add(time);
                 }else{
@@ -166,18 +166,24 @@ public class LectureManager{
             return lecture.get(index-1);
         return null;
     }
-    public Lecture getLectureByName(String lecId){
+    public Lecture getLectureByName(String lecName){
         for(Lecture lecTemp : lectureList){
-            if(lecTemp.getId().equals(lecId)){
+            if(lecTemp.getId().equals(lecName))
                 return lecTemp;
-            }
+        }
+        return null;
+    }
+    public Lecture getLectureByName(String lecName, List<Lecture> lecture){
+        for(Lecture lecTemp : lecture){
+            if(lecTemp.getId().equals(lecName))
+                return lecTemp;
         }
         return null;
     }
 
-    public Lecture getLectureIndexById(String lectureId){
+    public Lecture getLectureIndexById(String lecId){
         for(Lecture tempLec : lectureList){
-            if(tempLec.getId().equals(lectureId)){
+            if(tempLec.getId().equals(lecId)){
                 return tempLec;
             }
         }

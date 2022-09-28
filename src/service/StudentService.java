@@ -67,21 +67,20 @@ public class StudentService {
 
     public void delStudentLecture(Student student, int index) {
 
-        Lecture lecture = LectureManager.INSTANCE.getLectureByIndex(index);
+        Lecture lecture = LectureManager.INSTANCE.getLectureByIndex(index,student.getMyLecture());
 
         if(isMyLecture(student,lecture.getName()) == false) {
-            student.getMyLecture().add(lecture);
-            System.out.println("강의 신청이 완료되었습니다.");
+            System.out.println("올바른 강의명을 입력해주세요.");
         }else{
-            System.out.println("이미 수강 중인 강의 입니다.");
+            student.getMyLecture().remove(lecture);
         }
+
     }
     public boolean isMyLecture(Student student, String lecName){
         for (Lecture tempLec: student.getMyLecture()) {
             if(tempLec.getName().equals(lecName))
                 return true;
         }
-        System.out.println("false");
         return false;
     }
     public void printStudentLecture(List<Lecture> myLecture){
