@@ -129,7 +129,7 @@ public class LectureManager{
             con = DriverManager.getConnection(url, user, password);
             //System.out.println("오라클 연결 성공");
 
-            String query = "SELECT * FROM LECTURE";
+            String query = "SELECT * FROM LECTURE_DB";
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
 

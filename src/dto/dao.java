@@ -42,7 +42,7 @@ public class dao {
         String query = "";
         for (Time timeTemp:lecture.getTime()) {
             try{
-                query = "INSERT INTO LECTURE VALUES(?,?,?,?,?,?)";
+                query = "INSERT INTO LECTURE_DB VALUES(?,?,?,?,?,?)";
                 psmt = con.prepareStatement(query);
                 psmt.setString(1,lecture.getId());
                 psmt.setString(2,lecture.getType());
