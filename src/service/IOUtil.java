@@ -43,6 +43,7 @@ public class IOUtil {
         SimpleDateFormat conTimeFormat = new SimpleDateFormat("E H");
         StringTokenizer st = new StringTokenizer(conTimeFormat.format(ts), " ");
 
+        time.ts = ts;
         time.day = st.nextToken();
         time.startTime = parseInt(st.nextToken());
         time.endTime = time.startTime + duration;

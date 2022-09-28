@@ -24,7 +24,7 @@ public class LectureManager{
 
     public LectureManager(){
 
-        connectDatabase();
+        readDatabase();
         //test용
 //        lectureList.add(new Lecture("0001", "전공필수", "JAVA 기초", new ArrayList<>(Arrays.asList(new Time("월",1,3),new Time("수",1,3))), 4));
 //        lectureList.add(new Lecture("0002", "전공필수", "Spring 실습", new ArrayList<>(Arrays.asList(new Time("월",3,5),new Time("화",2,4))), 4));
@@ -75,8 +75,45 @@ public class LectureManager{
     }
 
 
+    //-----------------------------------------------------------------------------
+    public boolean isRangeOfIndex(int index){
+        if(index > lectureList.size())
+            return false;
+        return true;
+    }
+    public boolean isRangeOfIndex(int index, List<Lecture> lecture){
+        if(index > lecture.size())
+            return false;
+        return true;
+    }
+    public boolean isLectureExist(Lecture lecture){
+        for(Lecture lecTemp : lectureList){
+            if(lecTemp.getId().equals(lecture.getId()))
+                return true;
+        }
+        return false;
+    }
+    public Lecture getLectureByIndex(int index){
+        if(isRangeOfIndex(index))
+            return lectureList.get(index-1);
+        return null;
+    }
+    public Lecture getLectureByIndex(int index, List<Lecture> lecture){
+        if(isRangeOfIndex(index,lecture))
+            return lecture.get(index-1);
+        return null;
+    }
+    public Lecture getLectureIndexById(String lecId){
+        for(Lecture tempLec : lectureList){
+            if(tempLec.getId().equals(lecId))
+                return tempLec;
+        }
+        return null;
+    }
+
+
     //----db connect------------------------------------------------------------------
-    public void connectDatabase(){
+    public void readDatabase(){
         String driver = "oracle.jdbc.driver.OracleDriver";
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
         String user = "LECTURE_ADMIN";
@@ -103,6 +140,7 @@ public class LectureManager{
                 String lecName = rs.getString(3);
 
                 List<Time> lecTime = new ArrayList<>();
+
                 Timestamp ts = rs.getTimestamp(4);
                 int lecDuration = rs.getInt(5);
                 Time time = IOUtil.INSTANCE.timeStampToTime(ts,lecDuration);
@@ -136,59 +174,5 @@ public class LectureManager{
             }
         }
     }
-
-
-    public boolean isRangeOfIndex(int index){
-        if(index > lectureList.size())
-            return false;
-        return true;
-    }
-    public boolean isRangeOfIndex(int index, List<Lecture> lecture){
-        if(index > lecture.size())
-            return false;
-        return true;
-    }
-    public boolean isLectureExist(Lecture lecture){
-        for(Lecture lecTemp : lectureList){
-            if(lecTemp.getId().equals(lecture.getId())){
-                return true;
-            }
-        }
-        return false;
-    }
-    public Lecture getLectureByIndex(int index){
-        if(isRangeOfIndex(index))
-            return lectureList.get(index-1);
-        return null;
-    }
-    public Lecture getLectureByIndex(int index, List<Lecture> lecture){
-        if(isRangeOfIndex(index))
-            return lecture.get(index-1);
-        return null;
-    }
-    public Lecture getLectureByName(String lecName){
-        for(Lecture lecTemp : lectureList){
-            if(lecTemp.getId().equals(lecName))
-                return lecTemp;
-        }
-        return null;
-    }
-    public Lecture getLectureByName(String lecName, List<Lecture> lecture){
-        for(Lecture lecTemp : lecture){
-            if(lecTemp.getId().equals(lecName))
-                return lecTemp;
-        }
-        return null;
-    }
-
-    public Lecture getLectureIndexById(String lecId){
-        for(Lecture tempLec : lectureList){
-            if(tempLec.getId().equals(lecId)){
-                return tempLec;
-            }
-        }
-        return null;
-    }
-
 
 }

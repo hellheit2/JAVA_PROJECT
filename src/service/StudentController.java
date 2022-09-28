@@ -44,7 +44,7 @@ public class StudentController {
                     LectureManager.INSTANCE.printLecture();
                     index = Integer.parseInt(IOUtil.INSTANCE.inputMenu("강의 번호 : "));
 
-                    if(LectureManager.INSTANCE.isRangeOfIndex(index)){
+                    if(LectureManager.INSTANCE.isRangeOfIndex(index,student.getMyLecture())){
                         StudentService.INSTANCE.delStudentLecture(student, index);
                     }else{
                         System.out.println("올바른 강의 번호를 입력해주세요.");
