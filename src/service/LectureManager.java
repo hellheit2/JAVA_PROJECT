@@ -1,18 +1,14 @@
 package service;
 
 import dto.Lecture;
-import dto.Student;
 import dto.Time;
 import exception.LectureDuplicationException;
-
-import view.MainView;
+import exception.OutOfWeekdayException;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import static java.lang.Integer.parseInt;
 
@@ -22,20 +18,47 @@ public class LectureManager{
     final static LectureManager INSTANCE = new LectureManager();
     public List<Lecture> lectureList = new ArrayList<>();
 
-    public LectureManager(){
+    public LectureManager() {
 
         readDatabase();
         //test용
-//        lectureList.add(new Lecture("0001", "전공필수", "JAVA 기초", new ArrayList<>(Arrays.asList(new Time("월",1,3),new Time("수",1,3))), 4));
-//        lectureList.add(new Lecture("0002", "전공필수", "Spring 실습", new ArrayList<>(Arrays.asList(new Time("월",3,5),new Time("화",2,4))), 4));
-//        lectureList.add(new Lecture("0003", "교양", "HTML 기초", new ArrayList<>(Arrays.asList(new Time("월",1,3))), 2));
-//        lectureList.add(new Lecture("0004", "교양", "CSS 응용", new ArrayList<>(Arrays.asList(new Time("월",6,7),new Time("목",1,2))), 2));
-//        lectureList.add(new Lecture("0005", "전공선택", "SQL 데이터베이스", new ArrayList<>(Arrays.asList(new Time("화",4,6),new Time("목",5,6))), 3));
-//        lectureList.add(new Lecture("0006", "전공선택", "JAVA 심화", new ArrayList<>(Arrays.asList(new Time("수",3,5),new Time("목",3,5))), 4));
-//        lectureList.add(new Lecture("0007", "전공필수", "프로젝트 설계 기초", new ArrayList<>(Arrays.asList(new Time("금",1,5))), 4));
-//        lectureList.add(new Lecture("0008", "전공선택", "E-R 다이어그램의 이해", new ArrayList<>(Arrays.asList(new Time("월",1,3),new Time("수",1,3))), 3));
-//        lectureList.add(new Lecture("0009", "교양", "프로그래밍의 역사", new ArrayList<>(Arrays.asList(new Time("월",7,8))), 1));
-//        lectureList.add(new Lecture("0010", "전공선택", "정보처리학개론", new ArrayList<>(Arrays.asList(new Time("월",1,3),new Time("수",1,3))), 3));
+        try {
+            List<Lecture> test = new ArrayList<>(Arrays.asList(
+                    new Lecture("0002", "전공필수", "Spring 실습", new ArrayList<>(Arrays.asList(new Time("월", 11, 13), new Time("화", 10, 12))), 4),
+                    new Lecture("0003", "교양", "HTML 기초", new ArrayList<>(Arrays.asList(new Time("월", 9, 11))), 2),
+                    new Lecture("0004", "교양", "CSS 응용", new ArrayList<>(Arrays.asList(new Time("월", 14, 16), new Time("목", 9, 10))), 2),
+                    new Lecture("0005", "전공선택", "SQL 데이터베이스", new ArrayList<>(Arrays.asList(new Time("화", 12, 14), new Time("목", 13, 15))), 3),
+                    new Lecture("0006", "전공선택", "JAVA 심화", new ArrayList<>(Arrays.asList(new Time("수", 11, 14), new Time("목", 9, 13))), 4),
+                    new Lecture("0007", "전공필수", "프로젝트 설계 기초", new ArrayList<>(Arrays.asList(new Time("금", 9, 13))), 4),
+                    new Lecture("0008", "전공선택", "ERD 다이어그램의 이해", new ArrayList<>(Arrays.asList(new Time("월", 9, 11), new Time("수", 9, 11))), 3),
+                    new Lecture("0009", "교양", "프로그래밍의 역사", new ArrayList<>(Arrays.asList(new Time("월", 16, 17))), 1),
+                    new Lecture("0010", "전공선택", "정보처리학개론", new ArrayList<>(Arrays.asList(new Time("월", 9, 11), new Time("수", 9, 11))), 3)
+            ));
+            for (Lecture l : test) {
+                try {
+                    addLecture(l);
+                } catch(LectureDuplicationException e){
+                    System.out.println("중복 입력");
+                }
+            }
+        } catch(OutOfWeekdayException e){
+            System.out.println("요일 입력 실패");
+        }
+
+
+
+//            addLecture(new Lecture("0001", "전공필수", "JAVA 기초", new ArrayList<>(Arrays.asList(new Time("월",9,11),new Time("수",9,11))), 4));
+//            addLecture(new Lecture("0002", "전공필수", "Spring 실습", new ArrayList<>(Arrays.asList(new Time("월",11,13),new Time("화",10,12))), 4));
+//            addLecture(new Lecture("0003", "교양", "HTML 기초", new ArrayList<>(Arrays.asList(new Time("월",9,11))), 2));
+//            addLecture(new Lecture("0004", "교양", "CSS 응용", new ArrayList<>(Arrays.asList(new Time("월",14,16),new Time("목",9,10))), 2));
+//            addLecture(new Lecture("0005", "전공선택", "SQL 데이터베이스", new ArrayList<>(Arrays.asList(new Time("화",12,14),new Time("목",13,15))), 3));
+//            addLecture(new Lecture("0006", "전공선택", "JAVA 심화", new ArrayList<>(Arrays.asList(new Time("수",11,14),new Time("목",9,13))), 4));
+//            addLecture(new Lecture("0007", "전공필수", "프로젝트 설계 기초", new ArrayList<>(Arrays.asList(new Time("금",9,13))), 4));
+//            addLecture(new Lecture("0008", "전공선택", "E-R 다이어그램의 이해", new ArrayList<>(Arrays.asList(new Time("월",9,11),new Time("수",9,11))), 3));
+//            addLecture(new Lecture("0009", "교양", "프로그래밍의 역사", new ArrayList<>(Arrays.asList(new Time("월",16,17))), 1));
+//            addLecture(new Lecture("0010", "전공선택", "정보처리학개론", new ArrayList<>(Arrays.asList(new Time("월",9,11),new Time("수",9,11))), 3));
+
+
     }
 
 
@@ -54,10 +77,9 @@ public class LectureManager{
 
     public void addLecture(Lecture lecture) throws LectureDuplicationException {
 
-        if(getLectureIndexById(lecture.getId()) == null){
+        if(isLectureExist(lecture)){
             throw new LectureDuplicationException("이미 존재하는 수업 입니다.");
         }
-
         lectureList.add(lecture);
     }
 
@@ -129,7 +151,7 @@ public class LectureManager{
             con = DriverManager.getConnection(url, user, password);
             //System.out.println("오라클 연결 성공");
 
-            String query = "SELECT * FROM LECTURE_DB";
+            String query = "SELECT * FROM LECTURE";
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
 

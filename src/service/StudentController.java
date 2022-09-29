@@ -41,7 +41,7 @@ public class StudentController {
                 case 4:
                     System.out.println("수강 철회");
 
-                    LectureManager.INSTANCE.printLecture();
+                    IOUtil.INSTANCE.printLectureList(student.getMyLecture());
                     index = Integer.parseInt(IOUtil.INSTANCE.inputMenu("강의 번호 : "));
 
                     if(LectureManager.INSTANCE.isRangeOfIndex(index,student.getMyLecture())){

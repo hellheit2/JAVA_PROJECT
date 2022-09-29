@@ -54,11 +54,11 @@ public class Lecture {
         }
 
         String result = "";
-        result += IOUtil.INSTANCE.textAlign(lecId, 8);
-        result += IOUtil.INSTANCE.textAlign(lecType, 6);
-        result += IOUtil.INSTANCE.textAlign(lecName, 25);
-        result += IOUtil.INSTANCE.textAlign(time, 30);
-        result += IOUtil.INSTANCE.textAlign(String.format("%d",lecCredit), 10);
+        result += String.format("%-6s",lecId).replace(" "," ");
+        result += String.format("%-10s",lecType).replace(" "," ");
+        result += String.format("%-18s",lecName).replace(" "," ");
+        result += String.format("%-45s",time);
+        result += String.format("%2d",lecCredit).replace(" "," ");
 
         return result;
     }
