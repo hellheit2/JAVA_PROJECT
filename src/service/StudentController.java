@@ -1,6 +1,7 @@
 package service;
 
 import dto.Student;
+import exception.LectureDuplicationException;
 import view.StudentView;
 
 import java.io.IOException;
@@ -33,7 +34,11 @@ public class StudentController {
                     index = Integer.parseInt(IOUtil.INSTANCE.inputMenu("강의 번호 : "));
 
                     if(LectureManager.INSTANCE.isRangeOfIndex(index)){
-                        StudentService.INSTANCE.addStudentLecture(student, index);
+                        try{
+                            StudentService.INSTANCE.addStudentLecture(student, index);
+                        } catch (LectureDuplicationException e) {
+                            System.out.println(e.getMsg());
+                        }
                     }else{
                         System.out.println("올바른 강의 번호를 입력해주세요.");
                     }

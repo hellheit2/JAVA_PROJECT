@@ -2,6 +2,7 @@ package service;
 
 import dto.Lecture;
 import dto.Student;
+import dto.Time;
 import exception.LectureDuplicationException;
 import view.MainView;
 
@@ -53,18 +54,62 @@ public class StudentService {
         return null;
     }
 
-    public void addStudentLecture(Student student, int index){
+    // 수강 내역---------------------------------------------------------------------------
+    public void printStudentLecture(List<Lecture> myLecture){
 
-        Lecture lecture = LectureManager.INSTANCE.getLectureByIndex(index);
-
-        if(isMyLecture(student,lecture.getName()) == false) {
-            student.getMyLecture().add(lecture);
-            System.out.println("강의 신청이 완료되었습니다.");
+        if(myLecture.isEmpty()){
+            System.out.println("수강 중인 강의가 없습니다.");
         }else{
-            System.out.println("이미 수강 중인 강의 입니다.");
+            IOUtil.INSTANCE.printLectureList(myLecture);
         }
     }
 
+    // 수강신청 ----------------------------------------------------------------------------------------
+    public void addStudentLecture(Student student, int index) throws LectureDuplicationException {
+
+        Lecture lecture = LectureManager.INSTANCE.getLectureByIndex(index);
+
+        if(isMyLecture(student,lecture.getName()) == false){
+            if(isTimeAvailable(student,lecture) == true) {
+                student.getMyLecture().add(lecture);
+                System.out.println("강의 신청이 완료되었습니다.");
+            }else{
+                System.out.println("해당 시간에 이미 수업이 있습니다.");
+            }
+        }else{
+            throw new LectureDuplicationException("이미 존재하는 수업 입니다.");
+        }
+    }
+    public boolean isTimeAvailable(Student student, Lecture lecture){
+        List<Lecture> stuLec = student.getMyLecture();
+        List<Time> lecTime = null;
+
+        List<Time> newTime = lecture.getTime();
+
+        for(Time chkTime : newTime){
+
+            for(Lecture tempLec : stuLec){
+
+                lecTime = tempLec.getTime();
+                for(Time tempTime : lecTime) {
+                    if (isSameDay(tempTime,chkTime)
+                            && timeIncluded(tempTime,chkTime))
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean isSameDay(Time time, Time chkTime){
+        return time.getDay().equals(chkTime.getDay());
+    }
+    public boolean timeIncluded(Time time, Time chkTime){
+        return (time.getStartTime() < chkTime.getEndTime())
+                && (time.getEndTime() > chkTime.getStartTime());
+    }
+
+
+    // 수강 취소 ----------------------------------------------------------------------------------------
     public void delStudentLecture(Student student, int index) {
 
         Lecture lecture = LectureManager.INSTANCE.getLectureByIndex(index,student.getMyLecture());
@@ -83,13 +128,32 @@ public class StudentService {
         }
         return false;
     }
-    public void printStudentLecture(List<Lecture> myLecture){
 
-        if(myLecture.isEmpty()){
-            System.out.println("수강 중인 강의가 없습니다.");
-        }else{
-            IOUtil.INSTANCE.printLectureList(myLecture);
-        }
+    // 시간표 확인 ----------------------------------------------------------------------
+    public String makeSchedule(){
+        String top = "┌─────┬───────┬───────┬───────┬───────┬───────┐";
+        String mid = "├─────┼───────┼───────┼───────┼───────┼───────┤";
+        String end = "└─────┴───────┴───────┴───────┴───────┴───────┘";
+        System.out.println("┌─────┬───────┬───────┬───────┬───────┬───────┐");
+        System.out.println("|     |  MON  |  TUE  |  WED  |  THU  |  FRI  |");
+        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+        System.out.println("|  1  |   A   |   B   |   C   |   D   |   E   |");
+        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+        System.out.println("|  2  |       |   B   |   C   |   D   |   E   |");
+        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+        System.out.println("|  3  |       |   B   |   C   |   D   |   E   |");
+        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+        System.out.println("|  4  |   C   |   B   |   C   |   D   |   E   |");
+        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+        System.out.println("|  5  |       |   B   |   C   |   D   |   E   |");
+        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+        System.out.println("|  6  |   D   |   B   |   C   |   D   |   E   |");
+        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+        System.out.println("|  7  |   B   |   B   |   C   |   D   |   E   |");
+        System.out.println("└─────┴───────┴───────┴───────┴───────┴───────┘");
+
+        return top;
     }
+
 
 }

@@ -8,6 +8,10 @@ public class LectureDuplicationException extends Exception {
     public LectureDuplicationException(String msg) {
         setMsg(msg);
     }
+
+    public String getMsg() {
+        return msg;
+    }
     public void setMsg(String msg) {
         this.msg = msg;
     }
