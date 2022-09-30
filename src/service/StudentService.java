@@ -4,10 +4,12 @@ import dto.Lecture;
 import dto.Student;
 import dto.Time;
 import exception.LectureDuplicationException;
+import exception.OutOfWeekdayException;
 import view.MainView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,6 +102,7 @@ public class StudentService {
         }
         return true;
     }
+
     public boolean isSameDay(Time time, Time chkTime){
         return time.getDay().equals(chkTime.getDay());
     }
@@ -129,31 +132,69 @@ public class StudentService {
         return false;
     }
 
+    public int yoilToInt(String yoil){
+        if(yoil.equals("월")){
+            return 0;
+        } else if(yoil.equals("화")){
+            return 1;
+        } else if(yoil.equals("화")){
+            return 1;
+        } else if(yoil.equals("화")){
+            return 1;
+        } else if(yoil.equals("화")){
+            return 1;
+        }
+        return 5;
+    }
     // 시간표 확인 ----------------------------------------------------------------------
-    public String makeSchedule(){
-        String top = "┌─────┬───────┬───────┬───────┬───────┬───────┐";
-        String mid = "├─────┼───────┼───────┼───────┼───────┼───────┤";
-        String end = "└─────┴───────┴───────┴───────┴───────┴───────┘";
+    public void showSchedule(Student student) {
+        
+        List<Lecture> lec = student.getMyLecture();
+
+        String schedule[][] = new String[5][8];
+        for (int i = 0; i < schedule.length; i++) {
+            schedule[i] = new String[]{" "," "," "," "," "," "," "," "};
+        }
+
+        Map<String,String> map = new HashMap<>();
+
+        int n = 65;
+
+        for(Lecture l : lec){
+            String key = String.valueOf((char)(n++));
+            map.put(key, l.getName());
+            for(Time t : l.getTime()){
+                try {
+                    int day = IOUtil.INSTANCE.dyaOfWeekToInt(t.getDay());
+
+                    for (int period = t.startTime - 9; period < t.endTime - 9; period++) {
+                        schedule[day][period] = key;
+                    }
+                }catch(OutOfWeekdayException e){
+                    System.out.println(e.getMsg());
+                    return;
+                }
+            }
+        }
+
         System.out.println("┌─────┬───────┬───────┬───────┬───────┬───────┐");
         System.out.println("|     |  MON  |  TUE  |  WED  |  THU  |  FRI  |");
-        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
-        System.out.println("|  1  |   A   |   B   |   C   |   D   |   E   |");
-        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
-        System.out.println("|  2  |       |   B   |   C   |   D   |   E   |");
-        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
-        System.out.println("|  3  |       |   B   |   C   |   D   |   E   |");
-        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
-        System.out.println("|  4  |   C   |   B   |   C   |   D   |   E   |");
-        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
-        System.out.println("|  5  |       |   B   |   C   |   D   |   E   |");
-        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
-        System.out.println("|  6  |   D   |   B   |   C   |   D   |   E   |");
-        System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
-        System.out.println("|  7  |   B   |   B   |   C   |   D   |   E   |");
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            System.out.println("├─────┼───────┼───────┼───────┼───────┼───────┤");
+            sb.setLength(0);
+            sb.append("|  "+ (i + 1)+"  |");
+            for (int j = 0; j < 5; j++) {
+                sb.append("   " + schedule[j][i] + "   |");
+            }
+            System.out.println(sb);
+        }
         System.out.println("└─────┴───────┴───────┴───────┴───────┴───────┘");
 
-        return top;
+        for(String key : map.keySet()) {
+            String value = map.get(key);
+            System.out.println(key + " : " + value);
+        }
     }
-
-
 }

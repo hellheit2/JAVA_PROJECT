@@ -1,12 +1,13 @@
-package controler;
+package view;
 
 import service.MainMenuController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class Main {
+public class StartMain {
     public static void main(String[] args) throws IOException {
+
+
 
         new MainMenuController();
     }

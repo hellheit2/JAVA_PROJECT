@@ -57,6 +57,7 @@ public class StudentController {
                     break;
                 case 5:
                     System.out.println("시간표 확인");
+                    StudentService.INSTANCE.showSchedule(student);
                     break;
                 default:
                     System.out.println("잘못된 입력입니다.");
