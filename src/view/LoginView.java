@@ -1,26 +1,16 @@
 package view;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import controler.StudentController;
+import utility.InputUtil;
+
 
 public class LoginView {
-    static Scanner sc = new Scanner(System.in);
-    public static Map<String,String> login(){
+
+    public static void printLogin(){
         System.out.println("─────────────── 로그인 ───────────────");
-        System.out.print("아이디: ");
-        String id = sc.next();
-        System.out.print("비밀번호: ");
-        String pwd = sc.next();
+        String id = InputUtil.INSTANCE.inputStr("아이디: ");
+        String pwd = InputUtil.INSTANCE.inputStr("비밀번호: ");
 
-        Map<String,String> id_pwd = new HashMap<>();
-        id_pwd.put("id",id);
-        id_pwd.put("pwd",pwd);
-
-
-        return id_pwd;
-
+        StudentController.login(id, pwd);
     }
-
-
 }

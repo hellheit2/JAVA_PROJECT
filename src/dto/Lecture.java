@@ -1,7 +1,5 @@
 package dto;
 
-import service.IOUtil;
-
 import java.util.List;
 
 // Lecture Class
@@ -47,18 +45,30 @@ public class Lecture {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        Lecture lecture = (Lecture) obj;
+
+        if(lecture.getId() == this.getId()
+                && lecture.getTime() == this.getTime())
+            return true;
+        return false;
+    }
+
+    @Override
     public String toString() {
         String time = "";
         for(Time tempTime : lecTime){
             time += tempTime.toString() + " ";
         }
 
+        char c = 0x20;
         String result = "";
-        result += String.format("%-6s",lecId).replace(" "," ");
+        result += String.format("%-8s",lecId).replace(" "," ");
         result += String.format("%-10s",lecType).replace(" "," ");
+        result += String.format("%-5d",lecCredit).replace(" "," ");
         result += String.format("%-18s",lecName).replace(" "," ");
-        result += String.format("%-45s",time);
-        result += String.format("%2d",lecCredit).replace(" "," ");
+        result += String.format("%-35s",time).replace(" "," ");;
+
 
         return result;
     }

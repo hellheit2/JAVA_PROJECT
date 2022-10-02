@@ -1,14 +1,12 @@
 package view;
 
-import service.MainMenuController;
-
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class StartMain {
     public static void main(String[] args) throws IOException {
 
-
-
-        new MainMenuController();
+        MainView.showMainMenu();
+        //new MainMenuController();
     }
 }
