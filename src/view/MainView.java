@@ -33,7 +33,7 @@ public class MainView {
         System.out.println("       0.종료  1.로그인  2.회원가입      ");
         System.out.println("─────────────────────────────────────");
 
-        return InputUtil.INSTANCE.inputMenu(">> ");
+        return InputUtil.INSTANCE.inputInt(">> ");
 
 
     }

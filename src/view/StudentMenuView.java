@@ -18,10 +18,11 @@ public class StudentMenuView {
                 case 0: // 종료
                     System.out.println("종료");
                     isRun = false;
+                    StudentDAO.setSelectStu(null);
                     break;
                 case 1: // 강의 목록
                     System.out.println("강의 목록");
-                    OutputUtil.printLectureList(LectureDAO.lecList);
+                    OutputUtil.printLectureList(LectureDAO.getLecList());
                     break;
                 case 2: // 수강 내역
                     System.out.println("수강 내역");
@@ -29,7 +30,7 @@ public class StudentMenuView {
                     break;
                 case 3: // 수강 신청
                     System.out.println("수강 신청");
-                    OutputUtil.printLectureList(LectureDAO.lecList);
+                    OutputUtil.printLectureList(LectureDAO.getLecList());
 
                     StudentController.addStudentLecture(student);
                     break;
@@ -59,6 +60,6 @@ public class StudentMenuView {
                 "| 3. 수강 신청   | 4. 수강 철회 | 5. 시간표 확인");
         System.out.println("─────────────────────────────────────────────" +
                 "────────────────────────────────────");
-        return InputUtil.INSTANCE.inputMenu(">> ");
+        return InputUtil.INSTANCE.inputInt(">> ");
     }
 }

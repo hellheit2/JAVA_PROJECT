@@ -14,15 +14,28 @@ import java.util.List;
 
 public class LectureDAO {
 
-    public static List<Lecture> lecList;
+    private static List<Lecture> lecList;
 
     static{
-        lecList = readLectureDBTest();
+        try {
+            lecList = readLectureDB();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public LectureDAO(){
 
     }
+
+    public static List<Lecture> getLecList() {
+        return lecList;
+    }
+
+    public static void setLecList(List<Lecture> lecList) {
+        LectureDAO.lecList = lecList;
+    }
+
     public static Lecture getLectureByIndex(int index) throws LectureOutOfRangeException {
 
         if(isRangeOfIndex(index)){
@@ -36,42 +49,6 @@ public class LectureDAO {
             return false;
         return true;
     }
-
-    //관리자 기능
-    //----add---------------------------------------------------------------------
-
-    public void addLecture(Lecture lecture) throws LectureDuplicationException {
-
-        if(isLectureExist(lecture)){
-            throw new LectureDuplicationException("이미 존재하는 수업 입니다.");
-        }
-        lecList.add(lecture);
-    }
-    public boolean isLectureExist(Lecture lecture){
-//        if(lecList.contains(lecture)){
-//            return true;
-//        } //object equals가 먹히는지
-        for(Lecture lecTemp : lecList){
-            if(lecTemp.getId().equals(lecture.getId()))
-                return true;
-        }
-        return false;
-    }
-
-    //----update------------------------------------------------------------------
-
-
-    //----delete------------------------------------------------------------------
-    public boolean delLecture(Lecture lecture){
-        if(isLectureExist(lecture)){
-            lecList.remove(lecture);
-            return true;
-        }
-        return false;
-    }
-
-
-    //-----------------------------------------------------------------------------
 
 
     public static List<Lecture> readLectureDBTest(){
@@ -97,16 +74,15 @@ public class LectureDAO {
         return null;
     }
 
-    public List<Lecture> readLectureDB() throws SQLException {
+    public static List<Lecture> readLectureDB() throws SQLException {
 
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        List<Lecture> tempLecList = new ArrayList<Lecture>();
+        List<Lecture> tempLecList = new ArrayList<>();
 
-        String query = "select * " +
-                "from lecture natural join schedule;";
+        String query = "select * from lecture;";
 
         try {
             con = DAO.getConnection();
@@ -131,13 +107,12 @@ public class LectureDAO {
                         "from schedule where lec_id = " + lecId +";";
                 try{
                     con2 = DAO.getConnection();
-                    ps2 = con.prepareStatement(query);
-                    rs2 = ps.executeQuery(query);
+                    ps2 = con2.prepareStatement(query2);
+                    rs2 = ps2.executeQuery(query2);
 
                     while(rs2.next()){
-                        Timestamp start = rs.getTimestamp(1);
-                        Timestamp end = rs.getTimestamp(2);
-
+                        Timestamp start = rs2.getTimestamp(2);
+                        Timestamp end = rs2.getTimestamp(3);
                         Time time = InputUtil.INSTANCE.timestampToTime(start,end);
                         lecTime.add(time);
                     }
@@ -149,12 +124,47 @@ public class LectureDAO {
                 tempLecList.add(lecture);
 
             }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         } finally{
             DAO.close(con,ps,rs);
         }
         return tempLecList;
     }
+    public static int writeLectureDB(Lecture lecture) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int cnt = 0;
+        int cnt2 = 0;
 
+        try{
+            con = DAO.getConnection();
+            String query = "insert into lecture values(?,?,?,?)";
 
+            ps = con.prepareStatement(query);
+            ps.setString(1,lecture.getId());
+            ps.setString(2,lecture.getType());
+            ps.setString(3,lecture.getName());
+            ps.setInt(4,lecture.getCredit());
+
+            cnt = ps.executeUpdate();
+            query = "insert into schedule values(?,?,?)";
+
+            for (Time timeTemp:lecture.getTime()) {
+
+                ps = con.prepareStatement(query);
+                ps.setString(1, lecture.getId());
+                ps.setTimestamp(2, timeTemp.getStartTime());
+                ps.setTimestamp(3, timeTemp.getEndTime());
+                cnt = ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            DAO.close(con,ps,null);
+        }
+
+        return cnt;
+    }
 
 }

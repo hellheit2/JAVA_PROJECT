@@ -10,7 +10,7 @@ import java.util.List;
 
 public class StudentDAO {
 
-    public static List<Student> stuList = new ArrayList<>();
+    private static List<Student> stuList = new ArrayList<>();
     private static Student selectStu;
 
     static{ //db 읽어오는거로 변경
@@ -22,6 +22,7 @@ public class StudentDAO {
         test.setStuMajor("컴퓨터공학과");
         stuList.add(test);
     }
+
     public StudentDAO() {
     }
     public Student selectUserInfo(String stuId){
@@ -45,6 +46,15 @@ public class StudentDAO {
             return false;
         return true;
     }
+
+    public static List<Student> getStuList() {
+        return stuList;
+    }
+
+    public static void setStuList(List<Student> stuList) {
+        StudentDAO.stuList = stuList;
+    }
+
     public static Student getSelectStu() {
         return selectStu;
     }

@@ -18,7 +18,12 @@ public class LoginService {
 
     public StudentDAO loginCheck(String stuId, String stuPwd) throws NotFoundException {
 
-        if(isAdmin(stuId,stuPwd)) return null;
+        if(isAdmin(stuId,stuPwd)) {
+            OutputUtil.successMessage("───────────── 로그인 성공 ─────────────");
+            OutputUtil.successMessage("      관리자님 로그인에 성공했습니다.");
+            OutputUtil.successMessage("─────────────────────────────────────");
+            return null;
+        }
 
         Student student = studentDAO.selectUserInfo(stuId);
 
