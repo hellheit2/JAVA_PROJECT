@@ -13,7 +13,9 @@ public class LoginController {
 
     public static void login(String stuId, String stuPwd){
         try{
+            studentDAO = null;
             studentDAO = loginService.loginCheck(stuId, stuPwd);
+
             if(studentDAO == null){
                 AdminMenuView.adminMenu();
             }else{

@@ -44,6 +44,22 @@ public class Lecture {
         return lecCredit;
     }
 
+    public void setLecType(String lecType) {
+        this.lecType = lecType;
+    }
+
+    public void setLecName(String lecName) {
+        this.lecName = lecName;
+    }
+
+    public void setLecTime(List<Time> lecTime) {
+        this.lecTime = lecTime;
+    }
+
+    public void setLecCredit(int lecCredit) {
+        this.lecCredit = lecCredit;
+    }
+
     @Override
     public boolean equals(Object obj) {
         Lecture lecture = (Lecture) obj;

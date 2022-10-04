@@ -49,6 +49,17 @@ public class InputUtil {
             return null;
         }
     }
+    public List<Time> inputLectureTime(){
+        List<Time> lecTime = new ArrayList<>();
+        int cnt = inputInt("강의 횟수 : ");
+        for (int i = 0; i < cnt; i++) {
+            System.out.println("*** 형식에 맞게 입력해주세요(요일 시작시간 종료시간) ***");
+            Time time = inputTime("시간" + (i+1) + " : ");
+            lecTime.add(time);
+        }
+
+        return lecTime;
+    }
     public Time inputTime(String msg) {
 
         System.out.print(msg);
@@ -74,13 +85,7 @@ public class InputUtil {
         String lecId = inputStr("강의 코드 : ");
         String lecType = inputStr("강의 타입 : ");
         String lecName = inputStr("강의 제목 : ");
-        List<Time> lecTime = new ArrayList<>();
-        int cnt = inputInt("강의 횟수 : ");
-        for (int i = 0; i < cnt; i++) {
-            System.out.println("*** 형식에 맞게 입력해주세요(요일 시작시간 종료시간) ***");
-            Time time = inputTime("시간" + (i+1) + " : ");
-            lecTime.add(time);
-        }
+        List<Time> lecTime = inputLectureTime();
         int lecCredit = inputInt("학점 : ");
 
         Lecture lecture = new Lecture(lecId,lecType,lecName,lecTime,lecCredit);
@@ -97,8 +102,6 @@ public class InputUtil {
             String endTime = dayTime + (timeFormCheck(st.nextToken())  + ":00.0");
 
             Time time = new Time(day, Timestamp.valueOf(startTime), Timestamp.valueOf(endTime));
-            System.out.println("strToTime" + time.toString());
-            System.out.println(timeStr);
             return time;
         }
     }

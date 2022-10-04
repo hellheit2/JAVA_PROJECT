@@ -37,13 +37,7 @@ public class OutputUtil {
         System.out.println();
     }
 
-    public static void prinStudentList(List<Student> list){
-        System.out.print(String.format("%-4s","번호"));
-        System.out.print(String.format("%-8s","강의코드"));
-        System.out.print(String.format("%-12s","강의구분"));
-        System.out.print(String.format("%-10s","학점"));
-        System.out.print(String.format("%-30s","강의명"));
-        System.out.println(String.format("%-38s","강의시간"));
+    public static void printStudentList(List<Student> list){
         System.out.println("───────────────────────────────────────────────────" +
                 "─────────────────────────────────────────────────────────");
 

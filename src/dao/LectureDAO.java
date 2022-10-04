@@ -166,5 +166,82 @@ public class LectureDAO {
 
         return cnt;
     }
+    public static int deleteLectureDB(Lecture lecture) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int cnt = 0;
+        int cnt2 = 0;
+
+        try{
+            con = DAO.getConnection();
+
+            String query = "delete from lecture where lec_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1,lecture.getId());
+            cnt = ps.executeUpdate();
+
+            query = "delete from schedule where lec_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, lecture.getId());
+            cnt = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            DAO.close(con,ps,null);
+        }
+
+        return cnt;
+    }
+
+    public static int updateLectureDB(Lecture lecture, String field) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int cnt = 0;
+
+        try{
+            con = DAO.getConnection();
+
+            String query = "update lecture set lec_" + field + " = ? where lec_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(2,lecture.getId());
+            if(field.equals("credit")){
+                ps.setInt(1,lecture.getCredit());
+            }else{
+                ps.setString(1,lecture.getName());
+            }
+            cnt = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            DAO.close(con,ps,null);
+        }
+        return cnt;
+    }
+
+    public static int updateScheduleDB(Lecture lecture, Time time, Time update) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        int cnt = 0;
+
+        try{
+            con = DAO.getConnection();
+
+            String query = "update schedule set start_time = ?, end_time = ? where lec_id = ? and start_time = ?";
+            ps = con.prepareStatement(query);
+            ps.setTimestamp(1,update.getStartTime());
+            ps.setTimestamp(2,update.getEndTime());
+            ps.setString(3,lecture.getName());
+            ps.setTimestamp(4,time.getStartTime());
+            cnt = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            DAO.close(con,ps,null);
+        }
+        return cnt;
+    }
 
 }

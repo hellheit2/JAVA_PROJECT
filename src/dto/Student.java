@@ -75,13 +75,17 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id='" + id + '\'' +
-                ", pwd=" + pwd +
-                ", stuId=" + stuId +
-                ", stuName='" + stuName + '\'' +
-                ", stuMajor='" + stuMajor + '\'' +
-                ", myLecture=" + myLecture +
-                '}';
+        String lecture = "";
+
+        for(Lecture temp : myLecture){
+            lecture += (temp.getName() + ", ");
+        }
+        lecture = lecture.substring(0,lecture.length()-2);
+
+
+        return "학번 : " + stuId +
+                ", 성명 : " + stuName +
+                ", 전공 : " + stuMajor +
+                ", 강의 목록 : " + lecture;
     }
 }

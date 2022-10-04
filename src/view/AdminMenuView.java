@@ -11,22 +11,19 @@ import utility.OutputUtil;
 
 public class AdminMenuView {
 
-    static boolean isRun = true;
-
     public static void adminMenu(){
         Student student = StudentDAO.getSelectStu();
-        while (isRun) {
+        while (true) {
             int result = printAdminMenu();
 
             switch (result) {
                 case 0: // 종료
                     System.out.println("종료");
-                    isRun = false;
                     StudentDAO.setSelectStu(null);
-                    break;
-                case 1: // 강의 목록
+                    return;
+                case 1: // 학생 목록
                     System.out.println("학생 목록");
-                    OutputUtil.prinStudentList(StudentDAO.getStuList());
+                    OutputUtil.printStudentList(StudentDAO.getStuList());
                     System.out.println("학생 세부 조회");
                     break;
                 case 2: // 강의 목록
@@ -39,13 +36,13 @@ public class AdminMenuView {
                     break;
                 case 4: // 강의 변경
                     System.out.println("강의 변경");
+                    OutputUtil.printLectureList(LectureDAO.getLecList());
                     LectureController.updateLecture();
-
-                    StudentController.delStudentLecture(student);
                     break;
                 case 5: // 강의 삭제
                     System.out.println("강의 삭제");
-                    StudentController.showSchedule(student);
+                    OutputUtil.printLectureList(LectureDAO.getLecList());
+                    LectureController.delLecture();
                     break;
                 default:
                     OutputUtil.errorMessage("잘못된 입력입니다.");
@@ -60,7 +57,7 @@ public class AdminMenuView {
                 "                                     ");
         System.out.println("─────────────────────────────────────────────" +
                 "────────────────────────────────────");
-        System.out.println("0. 종료  | 1. 학생 목록  | 2. 수강 목록 " +
+        System.out.println("0. 종료  | 1. 학생 목록  | 2. 강의 목록 " +
                 "| 3. 강의 등록   | 4. 강의 변경 | 5. 강의 삭제");
         System.out.println("─────────────────────────────────────────────" +
                 "────────────────────────────────────");

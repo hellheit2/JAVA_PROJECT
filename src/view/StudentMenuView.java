@@ -9,17 +9,15 @@ import utility.InputUtil;
 import utility.OutputUtil;
 
 public class StudentMenuView {
-    static boolean isRun = true;
     public static void stuMenu(){
         Student student = StudentDAO.getSelectStu();
-        while (isRun) {
+        while (true) {
             int result = printStudentMenu();
             switch (result) {
                 case 0: // 종료
                     System.out.println("종료");
-                    isRun = false;
                     StudentDAO.setSelectStu(null);
-                    break;
+                    return;
                 case 1: // 강의 목록
                     System.out.println("강의 목록");
                     OutputUtil.printLectureList(LectureDAO.getLecList());
