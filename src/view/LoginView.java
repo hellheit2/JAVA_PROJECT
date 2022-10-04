@@ -1,7 +1,6 @@
 package view;
 
-import controler.LoginController;
-import controler.StudentController;
+import controler.LoginJoinController;
 import utility.InputUtil;
 
 
@@ -12,6 +11,6 @@ public class LoginView {
         String id = InputUtil.INSTANCE.inputStr("아이디: ");
         String pwd = InputUtil.INSTANCE.inputStr("비밀번호: ");
 
-        LoginController.login(id, pwd);
+        LoginJoinController.login(id, pwd);
     }
 }

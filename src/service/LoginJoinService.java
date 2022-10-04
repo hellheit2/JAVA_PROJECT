@@ -3,20 +3,18 @@ package service;
 import dao.StudentDAO;
 import dto.Student;
 import exception.NotFoundException;
+import exception.UserDuplicationException;
 import utility.OutputUtil;
 
-import java.util.Map;
-
-public class LoginService {
+public class LoginJoinService {
     private static final String ADMIN_ID = "admin"; //관리자 아이디
     private static final String ADMIN_PWD = "admin"; //관리자 비번
-    StudentDAO studentDAO = new StudentDAO();
 
-    public LoginService(){
+    public LoginJoinService(){
 
     }
 
-    public StudentDAO loginCheck(String stuId, String stuPwd) throws NotFoundException {
+    public Student loginCheck(String stuId, String stuPwd) throws NotFoundException {
 
         if(isAdmin(stuId,stuPwd)) {
             OutputUtil.successMessage("───────────── 로그인 성공 ─────────────");
@@ -25,7 +23,7 @@ public class LoginService {
             return null;
         }
 
-        Student student = studentDAO.selectUserInfo(stuId);
+        Student student = StudentDAO.selectUserInfo(stuId);
 
         if(student == null){
             throw new NotFoundException("존재하지 않는 아이디입니다.");
@@ -36,11 +34,20 @@ public class LoginService {
             OutputUtil.successMessage("───────────── 로그인 성공 ─────────────");
             OutputUtil.successMessage("   " + stuId + "님 로그인에 성공했습니다.");
             OutputUtil.successMessage("─────────────────────────────────────");
-            studentDAO.setSelectStu(student);
+            StudentDAO.setSelectStu(student);
         }
-        return studentDAO;
+        return student;
     }
+    public boolean joinCheck(Student student) throws UserDuplicationException{
+        for(Student temp : StudentDAO.getStuList()){
+            if(temp.getId().equals(student.getId()))
+                throw new UserDuplicationException("이미 등록된 사용자입니다.");
+        }
+        StudentDAO.getStuList().add(student);
+        OutputUtil.successMessage("** 회원가입에 성공했습니다. 다시 로그인해주세요.");
 
+        return true;
+    }
     // 관리자인지 체크
     public static boolean isAdmin(String stuId, String stuPwd){
         return stuId.equals(ADMIN_ID)

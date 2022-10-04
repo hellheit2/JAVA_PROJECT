@@ -3,22 +3,35 @@ CREATE DATABASE lecture_db;
 
 USE lecture_db;
 CREATE TABLE lecture -- 회원 테이블
-( lec_id  		VARCHAR(20) NOT NULL PRIMARY KEY, -- 강의코드(PK)
-  lec_type    	VARCHAR(20) NOT NULL, -- 강의타입
-  lec_name    	VARCHAR(20) NOT NULL,  -- 강의명
+( lec_id  		CHAR(20) NOT NULL PRIMARY KEY, -- 강의코드(PK)
+  lec_type    	CHAR(20) NOT NULL, -- 강의타입
+  lec_name    	CHAR(20) NOT NULL,  -- 강의명
   lec_credit	INT -- 강의 학점
 );
 CREATE TABLE schedule -- 구매 테이블
 (  
-   lec_id  	CHAR(8) NOT NULL, -- 강의 코드(FK)
-   start_time	  	TIMESTAMP NOT NULL, -- 강의 시간
-   end_time	  	TIMESTAMP NOT NULL, -- 강의 시간
+   lec_id  			CHAR(8) NOT NULL, -- 강의 코드(FK)
+   start_time	  	TIMESTAMP NOT NULL, -- 강의 시작 시간
+   end_time	  		TIMESTAMP NOT NULL, -- 강의 종료 시간
    FOREIGN KEY (lec_id) REFERENCES lecture(lec_id),
    PRIMARY KEY(lec_id, start_time)
 );
 
+CREATE TABLE student
+(
+	stu_id 		CHAR(15) NOT NULL PRIMARY KEY,
+    stu_pwd 	CHAR(20) NOT NULL,
+    stu_no		CHAR(8) NOT NULL,
+    stu_name	CHAR(20) NOT NULL,
+    stu_major	CHAR(20) NOT NULL,
+    stu_lec		json
+);
+
+INSERT INTO student VALUES('test','1234','11111111','KIM','컴퓨터공학과','["0001","0002"]');
+
 select * from lecture;
 select * from schedule;
+select * from student;
 
 INSERT INTO lecture VALUES('0006', '전공선택', 'JAVA 심화', 6);
 INSERT INTO lecture VALUES('0007', '전공필수', '프로젝트 설계 기초', 4);
@@ -50,15 +63,3 @@ INSERT INTO schedule VALUES('0009', '22-09-05 16:00:00.000000000', '22-09-05 17:
 INSERT INTO schedule VALUES('0010', '22-09-05 09:00:00.000000000', '22-09-05 11:00:00.000000000');
 INSERT INTO schedule VALUES('0010', '22--0907 09:00:00.000000000', '22--0907 11:00:00.000000000');
 
-select * from lecture;
-select * from schedule;
--- select lecture.lec_id, lecture.lec_type, lecture.lec_name, lecture.lec_credit, schedule.lec_time, schedule.lec_duration
--- from lecture inner join schedule on lecture.lec_id = schedule.lec_id;
-
-select A.lec_id, A.lec_type, A.lec_name, B.lec_time, B.lec_duration, A.lec_credit
-from lecture A inner join schedule B on A.lec_id = B.lec_id order by A.lec_id;
-
-select *
-from lecture natural join schedule;
-
-SELECT @@global.time_zone, @@session.time_zone;

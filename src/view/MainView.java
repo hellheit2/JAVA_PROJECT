@@ -20,7 +20,7 @@ public class MainView {
                     LoginView.printLogin();
                     break;
                 case 2: //회원가입
-                    System.out.println("회원가입");
+                    JoinView.printJoin();
                     break;
                 default:
                     OutputUtil.errorMessage("다시 입력해주세요.");

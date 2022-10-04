@@ -7,7 +7,7 @@ public class Student {
 
     private String id;
     private String pwd;
-    private int stuId;
+    private String stuId;
     private String stuName;
     private String stuMajor;
     private List<Lecture> myLecture = new ArrayList<>();
@@ -16,7 +16,7 @@ public class Student {
 
     }
 
-    public Student(String id, String pwd, int stuId, String stuName, String stuMajor, List<Lecture> myLecture) {
+    public Student(String id, String pwd, String stuId, String stuName, String stuMajor, List<Lecture> myLecture) {
         this.id = id;
         this.pwd = pwd;
         this.stuId = stuId;
@@ -41,11 +41,11 @@ public class Student {
         this.pwd = pwd;
     }
 
-    public int getStuId() {
+    public String getStuId() {
         return stuId;
     }
 
-    public void setStuId(int stuId) {
+    public void setStuId(String stuId) {
         this.stuId = stuId;
     }
 
@@ -75,17 +75,14 @@ public class Student {
 
     @Override
     public String toString() {
-        String lecture = "";
 
-        for(Lecture temp : myLecture){
-            lecture += (temp.getName() + ", ");
-        }
-        lecture = lecture.substring(0,lecture.length()-2);
+        char c = 0x20;
+        String result = "";
+        result += String.format("%-12s",stuId).replace(" "," ");
+        result += String.format("%-10s",stuName).replace(" "," ");
+        result += String.format("%-10s",stuMajor).replace(" "," ");
 
 
-        return "학번 : " + stuId +
-                ", 성명 : " + stuName +
-                ", 전공 : " + stuMajor +
-                ", 강의 목록 : " + lecture;
+        return result;
     }
 }

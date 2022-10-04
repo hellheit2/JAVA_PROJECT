@@ -17,7 +17,7 @@ public class StudentDAO {
         Student test = new Student();
         test.setId("test");
         test.setPwd("1234");
-        test.setStuId(11111);
+        test.setStuId("11111111");
         test.setStuName("Kim");
         test.setStuMajor("컴퓨터공학과");
         stuList.add(test);
@@ -25,7 +25,7 @@ public class StudentDAO {
 
     public StudentDAO() {
     }
-    public Student selectUserInfo(String stuId){
+    public static Student selectUserInfo(String stuId){
         for(Student temp : stuList){
             if (temp.getId().equals(stuId))
                 return temp;

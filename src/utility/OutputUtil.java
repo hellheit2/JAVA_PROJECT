@@ -38,16 +38,18 @@ public class OutputUtil {
     }
 
     public static void printStudentList(List<Student> list){
-        System.out.println("───────────────────────────────────────────────────" +
-                "─────────────────────────────────────────────────────────");
+        System.out.print(String.format("%-6s","번호"));
+        System.out.print(String.format("%-12s","학번"));
+        System.out.print(String.format("%-16s","성명"));
+        System.out.println(String.format("%-10s","전공"));
+        System.out.println("──────────────────────────────────────────────");
 
         int i = 1;
         for(Student stuTemp: list){
             System.out.print(String.format("%-5s",i++));
             System.out.println(stuTemp.toString());
         }
-        System.out.println("───────────────────────────────────────────────────" +
-                "─────────────────────────────────────────────────────────");
+        System.out.println("──────────────────────────────────────────────");
         System.out.println();
     }
 }

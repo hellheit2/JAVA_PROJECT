@@ -13,6 +13,7 @@ import utility.OutputUtil;
 
 public class StudentController {
 
+
     public static void addStudentLecture(Student student){
         try{
             int index = InputUtil.INSTANCE.inputInt(">> ");
