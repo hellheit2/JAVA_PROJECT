@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Student {
 
-    private String id;
-    private String pwd;
     private String stuId;
+    private String stuPwd;
+    private String stuNo;
     private String stuName;
     private String stuMajor;
     private List<Lecture> myLecture = new ArrayList<>();
@@ -17,36 +17,36 @@ public class Student {
     }
 
     public Student(String id, String pwd, String stuId, String stuName, String stuMajor, List<Lecture> myLecture) {
-        this.id = id;
-        this.pwd = pwd;
-        this.stuId = stuId;
+        this.stuId = id;
+        this.stuPwd = pwd;
+        this.stuNo = stuId;
         this.stuName = stuName;
         this.stuMajor = stuMajor;
         this.myLecture = myLecture;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
     }
 
     public String getStuId() {
         return stuId;
     }
 
+    public String getStuPwd() {
+        return stuPwd;
+    }
+
     public void setStuId(String stuId) {
         this.stuId = stuId;
+    }
+
+    public void setStuPwd(String stuPwd) {
+        this.stuPwd = stuPwd;
+    }
+
+    public String getStuNo() {
+        return stuNo;
+    }
+
+    public void setStuNo(String stuNo) {
+        this.stuNo = stuNo;
     }
 
     public String getStuName() {
@@ -78,7 +78,7 @@ public class Student {
 
         char c = 0x20;
         String result = "";
-        result += String.format("%-12s",stuId).replace(" "," ");
+        result += String.format("%-12s", stuNo).replace(" "," ");
         result += String.format("%-10s",stuName).replace(" "," ");
         result += String.format("%-10s",stuMajor).replace(" "," ");
 

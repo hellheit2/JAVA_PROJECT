@@ -28,7 +28,7 @@ public class LoginJoinService {
         if(student == null){
             throw new NotFoundException("존재하지 않는 아이디입니다.");
         }
-        if(!student.getPwd().equals(stuPwd)){
+        if(!student.getStuPwd().equals(stuPwd)){
             throw new NotFoundException("비밀번호가 일치하지 않습니다.");
         }else{
             OutputUtil.successMessage("───────────── 로그인 성공 ─────────────");
@@ -40,7 +40,7 @@ public class LoginJoinService {
     }
     public boolean joinCheck(Student student) throws UserDuplicationException{
         for(Student temp : StudentDAO.getStuList()){
-            if(temp.getId().equals(student.getId()))
+            if(temp.getStuId().equals(student.getStuId()))
                 throw new UserDuplicationException("이미 등록된 사용자입니다.");
         }
         StudentDAO.getStuList().add(student);

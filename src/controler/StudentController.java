@@ -33,7 +33,7 @@ public class StudentController {
     public static void delStudentLecture(Student student){
         try{
             int index = InputUtil.INSTANCE.inputInt(">> ");
-            Lecture lecture = StudentDAO.getLectureByIndex(index);
+            Lecture lecture = StudentDAO.getStuLectureByIndex(index);
 
             StudentService.delStudentLecture(student,lecture);
 

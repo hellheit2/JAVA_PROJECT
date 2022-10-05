@@ -148,4 +148,8 @@ public class InputUtil {
 
         return time;
     }
+
+    public void close() throws IOException {
+        bf.close();
+    }
 }

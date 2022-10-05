@@ -3,7 +3,6 @@ package dao;
 import dto.Lecture;
 import dto.Student;
 import exception.LectureOutOfRangeException;
-import service.StudentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +14,9 @@ public class StudentDAO {
 
     static{ //db 읽어오는거로 변경
         Student test = new Student();
-        test.setId("test");
-        test.setPwd("1234");
-        test.setStuId("11111111");
+        test.setStuId("test");
+        test.setStuPwd("1234");
+        test.setStuNo("11111111");
         test.setStuName("Kim");
         test.setStuMajor("컴퓨터공학과");
         stuList.add(test);
@@ -27,13 +26,13 @@ public class StudentDAO {
     }
     public static Student selectUserInfo(String stuId){
         for(Student temp : stuList){
-            if (temp.getId().equals(stuId))
+            if (temp.getStuId().equals(stuId))
                 return temp;
         }
         return null;
     }
 
-    public static Lecture getLectureByIndex(int index) throws LectureOutOfRangeException {
+    public static Lecture getStuLectureByIndex(int index) throws LectureOutOfRangeException {
 
         if(isRangeOfIndex(index)){
             return selectStu.getMyLecture().get(index - 1);
