@@ -7,8 +7,8 @@ import java.sql.*;
 
 public class DAO {
 
-    public static String driver = "com.mysql.cj.jdbc.Driver";
-    public static String url = "jdbc:mysql://localhost:3306/lecture_db";
+    public static String driver = "org.mariadb.jdbc.Driver";
+    public static String url = "jdbc:mariadb://localhost:3306/lecture_db";
     public static String user = "root";
     public static String password = "12345";
 
