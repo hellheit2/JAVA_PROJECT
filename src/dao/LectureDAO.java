@@ -2,7 +2,6 @@ package dao;
 
 import dto.Lecture;
 import dto.Time;
-import exception.LectureDuplicationException;
 import utility.InputUtil;
 
 import exception.LectureOutOfRangeException;
@@ -104,7 +103,7 @@ public class LectureDAO {
                 PreparedStatement ps2 = null;
                 ResultSet rs2 = null;
                 String query2 = "select * " +
-                        "from schedule where lec_id = " + lecId +";";
+                        "from lecture_time where lec_id = " + lecId +";";
                 try{
                     con2 = DAO.getConnection();
                     ps2 = con2.prepareStatement(query2);
@@ -148,7 +147,7 @@ public class LectureDAO {
             ps.setInt(4,lecture.getCredit());
 
             cnt = ps.executeUpdate();
-            query = "insert into schedule values(?,?,?)";
+            query = "insert into lecture_time values(?,?,?)";
 
             for (Time timeTemp:lecture.getTime()) {
 
@@ -180,7 +179,7 @@ public class LectureDAO {
             ps.setString(1,lecture.getId());
             cnt = ps.executeUpdate();
 
-            query = "delete from schedule where lec_id = ?";
+            query = "delete from lecture_time where lec_id = ?";
             ps = con.prepareStatement(query);
             ps.setString(1, lecture.getId());
             cnt = ps.executeUpdate();
@@ -220,7 +219,7 @@ public class LectureDAO {
         return cnt;
     }
 
-    public static int updateScheduleDB(Lecture lecture, Time time, Time update) {
+    public static int updateLectureTimeDB(Lecture lecture, Time time, Time update) {
         Connection con = null;
         PreparedStatement ps = null;
         int cnt = 0;
@@ -228,7 +227,7 @@ public class LectureDAO {
         try{
             con = DAO.getConnection();
 
-            String query = "update schedule set start_time = ?, end_time = ? where lec_id = ? and start_time = ?";
+            String query = "update lecture_time set start_time = ?, end_time = ? where lec_id = ? and start_time = ?";
             ps = con.prepareStatement(query);
             ps.setTimestamp(1,update.getStartTime());
             ps.setTimestamp(2,update.getEndTime());
