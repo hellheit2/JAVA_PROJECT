@@ -44,8 +44,11 @@
   ![ER_다이어그램](https://raw.githubusercontent.com/hellheit2/JAVA_PROJECT/main/document/ER_Diagram.png)
   </br></br>
   - 시퀀스 다이어그램
+  1. 공통
   ![시퀀스_다이어그램_로그인](https://raw.githubusercontent.com/hellheit2/JAVA_PROJECT/main/document/sequenceDiagram_Login_Join.png)
+  2. 학생
   ![시퀀스_다이어그램_학생](https://raw.githubusercontent.com/hellheit2/JAVA_PROJECT/main/document/sequenceDiagram_Student.png)
+  3. 관리자
   ![시퀀스_다이어그램_관리자](https://raw.githubusercontent.com/hellheit2/JAVA_PROJECT/main/document/sequenceDiagram_Admin.png)
   </br></br>
   - 클래스 다이어그램
