@@ -5,6 +5,7 @@ import dto.Time;
 import utility.InputUtil;
 
 import exception.LectureOutOfRangeException;
+import utility.OutputUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -174,14 +175,14 @@ public class LectureDAO {
         try{
             con = DAO.getConnection();
 
-            String query = "delete from lecture where lec_id = ?";
-            ps = con.prepareStatement(query);
-            ps.setString(1,lecture.getId());
-            cnt = ps.executeUpdate();
-
-            query = "delete from lecture_time where lec_id = ?";
+            String query = "delete from lecture_time where lec_id = ?";
             ps = con.prepareStatement(query);
             ps.setString(1, lecture.getId());
+            cnt = ps.executeUpdate();
+
+            query = "delete from lecture where lec_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1,lecture.getId());
             cnt = ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -204,10 +205,15 @@ public class LectureDAO {
             String query = "update lecture set lec_" + field + " = ? where lec_id = ?";
             ps = con.prepareStatement(query);
             ps.setString(2,lecture.getId());
-            if(field.equals("credit")){
+            if(field.equals("type")){
+                ps.setString(1,lecture.getType());
+            }else if(field.equals("credit")){
                 ps.setInt(1,lecture.getCredit());
-            }else{
+            }else if(field.equals("name")){
                 ps.setString(1,lecture.getName());
+            }else{
+                OutputUtil.errorMessage("해당 필드가 없습니다.");
+                return cnt;
             }
             cnt = ps.executeUpdate();
 

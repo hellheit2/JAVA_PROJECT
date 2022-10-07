@@ -17,6 +17,7 @@ public class LectureService {
             LectureDAO.writeLectureDB(lecture);
             try {
                 LectureDAO.setLecList(LectureDAO.readLectureDB());
+                OutputUtil.successMessage("강의 등록이 완료되었습니다.");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -33,6 +34,7 @@ public class LectureService {
 
                 switch (result) {
                     case 0: // 종료
+                        OutputUtil.successMessage("강의 변경이 완료되었습니다.");
                         return;
                     case 1: // 강의명 변경
                         lecture.setLecName(InputUtil.INSTANCE.inputStr("변경 >>"));
@@ -46,7 +48,7 @@ public class LectureService {
                         List<Time> timeList = lecture.getTime();
                         int i = 1;
                         for(Time temp : timeList){ // 시간 리스트 출력
-                            System.out.println(i + ". " + temp.toString());
+                            System.out.println(i++ + ". " + temp.toString());
                         }
                         int index = InputUtil.INSTANCE.inputInt("시간 선택") - 1; // 변경 시간 선택
 
@@ -84,6 +86,7 @@ public class LectureService {
         if(isLectureExist(lecture) == true){
             LectureDAO.getLecList().remove(lecture);
             LectureDAO.deleteLectureDB(lecture);
+            OutputUtil.successMessage("강의 삭제가 완료되었습니다.");
         }
     }
     public static boolean isLectureExist(Lecture lecture){
