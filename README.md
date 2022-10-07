@@ -23,13 +23,15 @@
    3. 수강신청 : 강의 목록의 번호를 통해 수강 신청할 수 있다. 동일한 과목 및 동일한 시간대 신청은 불가하다.
    4. 수강철회 : 강의 목록의 번호를 통해 수강 철회할 수 있다.
    5. 시간표 생성 : 수강 신청 내역을 시간표의 형태로 확인할 수 있다.
-   
+   ![학생_프로그램_구동](https://raw.githubusercontent.com/hellheit2/JAVA_PROJECT/main/document/student.gif)
+   </br></br>
 - 관리자
    1. 학생목록 : 학생 목록을 확인할 수 있다.
    2. 강의목록 : 강의 목록을 확인할 수 있다.
    3. 강의등록 : 강의코드, 강의타입, 강의명, 학점, 강의시간을 통해 새로운 강의를 등록할 수 있다.
    4. 강의삭제 : 강의 목록의 번호를 통해 강의를 삭제할 수 있다.
    5. 강의수정 : 강의명, 강의타입, 학점 강의시간을 변강할 수 있다.
+   ![관리자_프로그램_구동](https://raw.githubusercontent.com/hellheit2/JAVA_PROJECT/main/document/admin.gif)
 
 <br/>
 
